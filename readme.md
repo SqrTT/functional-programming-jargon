@@ -22,7 +22,7 @@ __Содержание__
 * [Чистота](#purity)
 * [Побочные ефекты](#side-effects)
 * [Идемпотентность](#idempotent)
-* [Безточечный стил](#point-free-style)
+* [Безточечный стиль](#point-free-style)
 * [Предикат (утверждение)](#predicate)
 * [Контракты](#contracts)
 * [Защищенные функции](#guarded-functions)
@@ -215,6 +215,8 @@ greeting // "Hi, Brianne"
 
 ## Побочные ефекты {#side-effects}
 
+Говорят что функция или выражение имеет побочные еффекты если вместо возвращения значения она взаимодействует (читает или пишет в) внешнее зименяемое состояние. 
+
 A function or expression is said to have a side effect if apart from returning a value, it interacts with (reads from or writes to) external mutable state.
 
 ```js
@@ -222,57 +224,59 @@ const differentEveryTime = new Date()
 ```
 
 ```js
-console.log('IO is a side effect!')
+console.log('Ввовд/вывод это побочный еффект!')
 ```
 
-## Idempotent
+## Идемпотентность
 
-A function is idempotent if reapplying it to its result does not produce a different result.
+Функция называется идемпотентной если при повторном приминеии резултатата ее работы к самой себе вырабатывает тот же результат.
 
-```
+
+```javascript
 f(f(x)) ≍ f(x)
 ```
 
-```js
+```javascript
 Math.abs(Math.abs(10))
 ```
 
-```js
+```javascript
 sort(sort(sort([2, 1])))
 ```
 
-## Point-Free Style
+## Безточечный стиль
 
-Writing functions where the definition does not explicitly identify the arguments used. This style usually requires [currying](#currying) or other [Higher-Order functions](#higher-order-functions-hof). A.K.A Tacit programming.
+Написание функций в которых определения явно не указывают на использование аргументов. Этот стиль обычто требует использования [каррирования](#currying) или других [функций высокого порядка](#higher-order-functions-hof). aka "молчаливое програмирование".
 
-```js
-// Given
+```javascript
+// Имеем
 const map = (fn) => (list) => list.map(fn)
 const add = (a) => (b) => a + b
 
-// Then
+// Тогда
 
-// Not points-free - `numbers` is an explicit argument
+// не безточечный стиль - `numbers` явный аргумент
 const incrementAll = (numbers) => map(add(1))(numbers)
 
-// Points-free - The list is an implicit argument
+// безточечный стиль - список неявный аргумент
 const incrementAll2 = map(add(1))
 ```
 
-`incrementAll` identifies and uses the parameter `numbers`, so it is not points-free.  `incrementAll2` is written just by combining functions and values, making no mention of its arguments.  It __is__ points-free.
+`incrementAll` определяет и использует аргумент `numbers`, поэтому она не является безточечной.  `incrementAll2` написан простым комбинированием функций и значений, без упоминания их аргументов. Он __является__ безточечным.
 
-Points-free function definitions look just like normal assignments without `function` or `=>`.
+Определения безточечных функций похожи на обычное присваивание без `function` или `=>`.
 
-## Predicate
-A predicate is a function that returns true or false for a given value. A common use of a predicate is as the callback for array filter.
+## Предикат (утверждение)
 
-```js
+Предикат это функция которая возвращает истину или ложь для полученого значения. Распрастраненное использование это фукнция обратного вызова в фильтре коллекций.
+
+```javascript
 const predicate = (a) => a > 2
 
 ;[1, 2, 3, 4].filter(predicate) // [3, 4]
 ```
 
-## Contracts
+## Контракты
 
 TODO
 
@@ -280,36 +284,38 @@ TODO
 
 TODO
 
-## Categories
+## Категории
 
-Objects with associated functions that adhere to certain rules. E.g. [Monoid](#monoid)
+Объекты с привязанными фукркциями которые придерживаються определенных правил, например, [Моноид](#monoid)
 
-## Value
+## Значения
 
-Anything that can be assigned to a variable.
+Все что может быть присвоено переменной.
 
-```js
+
+```javascript
 5
-Object.freeze({name: 'John', age: 30}) // The `freeze` function enforces immutability.
+Object.freeze({name: 'John', age: 30}) // Фукнкия `freeze` принуждает к  неизменимости.
 ;(a) => a
 ;[1]
 undefined
 ```
 
-## Constant
+## Константы
 
-A variable that cannot be reassigned once defined.
+Переменные которые не могут быть переприсвоены после определения.
 
-```js
+
+```javascript
 const five = 5
 const john = {name: 'John', age: 30}
 ```
+Константы имеют 
+[ссылочную прозрачность](#referential-transparency). Это значит что они могут быдть заменены значениями которые они представлять без измененеия результата.
 
-Constants are [referentially transparent](#referential-transparency). That is, they can be replaced with the values that they represent without affecting the result.
+С вышеупомтянутыми константами выражение всегда будет возвращать `true`.
 
-With the above two constants the following expression will always return `true`.
-
-```js
+```javascript
 john.age + five === ({name: 'John', age: 30}).age + (5)
 ```
 
@@ -394,8 +400,7 @@ Say we have function greet:
 const greet = () => 'Hello World!'
 ```
 
-Any invocation of `greet()` can be replaced with `Hello World!` hence greet is
-referentially transparent.
+Any invocation of `greet()` can be replaced with `Hello World!` hence greet is referentially transparent.
 
 ##  Equational Reasoning
 
