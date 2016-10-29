@@ -1,81 +1,81 @@
-# Functional Programming Jargon
+Функциональное програмирование (ФП) предоставляет много приемуществ в результате чего его популярность растет. Однако, каждая парадигма програмиррования привносить свой уникальный жаргон и ФП не является исключением. Имея словарь, мы надеемся упростить изучение ФП.
 
-Functional programming (FP) provides many advantages, and its popularity has been increasing as a result. However, each programming paradigm comes with its own unique jargon and FP is no exception. By providing a glossary, we hope to make learning FP easier.
 
-Examples are presented in JavaScript (ES2015). [Why JavaScript?](https://github.com/hemanth/functional-programming-jargon/wiki/Why-JavaScript%3F)
 
-*This is a [WIP](https://github.com/hemanth/functional-programming-jargon/issues/20); please feel free to send a PR ;)*
+Примеры представлены на JavaScript (ES2015). [Почему JavaScript?](https://github.com/hemanth/functional-programming-jargon/wiki/Why-JavaScript%3F)
 
-Where applicable, this document uses terms defined in the [Fantasy Land spec](https://github.com/fantasyland/fantasy-land)
 
-__Translations__
-* [Portuguese](https://github.com/alexmoreno/jargoes-programacao-funcional)
 
-__Table of Contents__
+В этом докуменете, где возможно, применяется терминология определенная в [Fantasy Land spec](https://github.com/fantasyland/fantasy-land)
+
+
+
+__Содержание__
 <!-- RM(noparent,notop) -->
 
-* [Arity](#arity)
-* [Higher-Order Functions (HOF)](#higher-order-functions-hof)
-* [Partial Application](#partial-application)
-* [Currying](#currying)
-* [Auto Currying](#auto-currying)
-* [Function Composition](#function-composition)
-* [Purity](#purity)
-* [Side effects](#side-effects)
-* [Idempotent](#idempotent)
-* [Point-Free Style](#point-free-style)
-* [Predicate](#predicate)
-* [Contracts](#contracts)
-* [Guarded Functions](#guarded-functions)
-* [Categories](#categories)
-* [Value](#value)
-* [Constant](#constant)
-* [Functor](#functor)
+* [Арность](#arity)
+* [Функции высокого порядка (ФВП)](#higher-order-functions-hof)
+* [Частичное применение](#partial-application)
+* [Каррирование](#currying)
+* [Авто каррирование](#auto-currying)
+* [Композиция функций](#function-composition)
+* [Чистота](#purity)
+* [Побочные ефекты](#side-effects)
+* [Идемпотентность](#idempotent)
+* [Безточечный стил](#point-free-style)
+* [Предикат (утверждение)](#predicate)
+* [Контракты](#contracts)
+* [Защищенные функции](#guarded-functions)
+* [Категории](#categories)
+* [Значения](#value)
+* [Константы](#constant)
+* [Функтор](#functor)
 * [Pointed Functor](#pointed-functor)
-* [Lift](#lift)
-* [Referential Transparency](#referential-transparency)
+* [Подъем](#lift)
+* [Ссылочная прозрачность](#referential-transparency)
 * [Equational Reasoning](#equational-reasoning)
-* [Lambda](#lambda)
-* [Lambda Calculus](#lambda-calculus)
-* [Lazy evaluation](#lazy-evaluation)
-* [Monoid](#monoid)
-* [Monad](#monad)
-* [Comonad](#comonad)
-* [Applicative Functor](#applicative-functor)
-* [Morphism](#morphism)
-  * [Endomorphism](#endomorphism)
-  * [Isomorphism](#isomorphism)
-* [Setoid](#setoid)
-* [Semigroup](#semigroup)
-* [Foldable](#foldable)
-* [Traversable](#traversable)
-* [Type Signatures](#type-signatures)
-* [Union type](#union-type)
-* [Product type](#product-type)
-* [Option](#option)
-* [Functional Programming Libraries in JavaScript](#functional-programming-libraries-in-javascript)
+* [Лямбда](#lambda)
+* [Лямбда исчисления](#lambda-calculus)
+* [Ленивое выполнения](#lazy-evaluation)
+* [Моноид](#monoid)
+* [Монада](#monad)
+* [Комонада](#comonad)
+* [Апликативный функтор](#applicative-functor)
+* [Морфизм](#morphism)
+  * [Эндоморфизм](#endomorphism)
+  * [Изоморфизм](#isomorphism)
+* [Сетоид](#setoid)
+* [Полугрупа](#semigroup)
+* [Складываемый](#foldable)
+* [Обходимый](#traversable)
+* [Сихнатуры типов](#type-signatures)
+* [Типы обединения](#union-type)
+* [Тип продукта](#product-type)
+* [Опция](#option)
+* [Библиотеки для функционального программирования на JavaScript](#functional-programming-libraries-in-javascript)
 
 
 <!-- /RM -->
 
-## Arity
+## Арность {#arity}
 
-The number of arguments a function takes. From words like unary, binary, ternary, etc. This word has the distinction of being composed of two suffixes, "-ary" and "-ity." Addition, for example, takes two arguments, and so it is defined as a binary function or a function with an arity of two. Such a function may sometimes be called "dyadic" by people who prefer Greek roots to Latin. Likewise, a function that takes a variable number of arguments is called "variadic," whereas a binary function must be given two and only two arguments, currying and partial application notwithstanding (see below).
+Количество аргументов которые получает функция. Исходит из корня таких слов как унарный, бинарный, тернарный, итп. К примеру, функция получает два аргументы, поэтому она определана как бинарная фукнция или фукнция в которой арносто равна двум. Люди которые предпочитают гречиские корни латинским, иногда называют такие функции "диадическими". Аналогично, фукнции которые получают переменное количество аргументом называют "вариативными". В то время как банарная функция требует двух аргументов и только двух, вопреки каррированию и частичному применению (смотрите ниже). .
 
-```js
+```javascript
 const sum = (a, b) => a + b
 
 const arity = sum.length
 console.log(arity) // 2
 
-// The arity of sum is 2
+// Арность функции sum равняется 2
 ```
 
-## Higher-Order Functions (HOF)
+## Функции высокого порядка (ФВП) {#higher-order-functions-hof}
 
-A function which takes a function as an argument and/or returns a function.
+Функции которые получают как аргумент функцию и/или возвращают функцию
+.
 
-```js
+```javascript
 const filter = (predicate, xs) => {
   const result = []
   for (let idx = 0; idx < xs.length; idx++) {
@@ -87,52 +87,54 @@ const filter = (predicate, xs) => {
 }
 ```
 
-```js
+```javascript
 const is = (type) => (x) => Object(x) instanceof type
 ```
 
-```js
+```javascript
 filter(is(Number), [0, '1', 2, null]) // [0, 2]
 ```
 
-## Partial Application
+## Частичное применение {#partial-application}
 
-Partially applying a function means creating a new function by pre-filling some of the arguments to the original function.
+Частичное применение означает создание новой функции с преопределенными аргументами для оригинальной фукнции.
 
 
-```js
-// Helper to create partially applied functions
-// Takes a function and some arguments
+
+```javascript
+// Вспомагательная фукнция которая создает частично примененые фукнции
+// Получает фукнцию и аргументы
 const partial = (f, ...args) =>
-  // returns a function that takes the rest of the arguments
+  // возвращает функцию которая получает остальные аргумены
   (...moreArgs) =>
-    // and calls the original function with all of them
+    // и вызывает оригинальную функцию со всеми получеными аргументами
     f(...args, ...moreArgs)
 
-// Something to apply
+// Чтонибудь для примера
 const add3 = (a, b, c) => a + b + c
 
-// Partially applying `2` and `3` to `add3` gives you a one-argument function
+// Частичное приминения `2` и `3` к `add3` даст нам функцию с одним аргументом
 const fivePlus = partial(add3, 2, 3) // (c) => 2 + 3 + c
 
 fivePlus(4) // 9
 ```
 
-You can also use `Function.prototype.bind` to partially apply a function in JS:
+Вы также можете испльзовать `Function.prototype.bind` для частичного применения функций в JS:
 
-```js
+```javascript
 const add1More = add3.bind(null, 2, 3) // (c) => 2 + 3 + c
 ```
 
-Partial application helps create simpler functions from more complex ones by baking in data when you have it. [Curried](#currying) functions are automatically partially applied.
+Частичное применение помогает создать простые функции из более сложных заполняя их данными по мере получения. [Каррирование](#currying) функции автоматически частично применены.
 
-## Currying
+## Каррирование {#currying}
 
-The process of converting a function that takes multiple arguments into a function that takes them one at a time.
+Полцесс конвентирования фукнции которая получает несколько аргументов в функцию которая получает их по одному.
 
-Each time the function is called it only accepts one argument and returns a function that takes one argument until all arguments are passed.
+При каждом вызове функции она возвращает один аргумент и возвращает функцию которая получает один аргумент пока не будут получены все аргументы.
 
-```js
+
+```javascript
 const sum = (a, b) => a + b
 
 const curriedSum = (a) => (b) => a + b
@@ -145,12 +147,13 @@ add2(10) // 12
 
 ```
 
-## Auto Currying
-Transforming a function that takes multiple arguments into one that if given less than its correct number of arguments returns a function that takes the rest. When the function gets the correct number of arguments it is then evaluated.
+## Авто каррирование {#auto-currying}
 
-Underscore, lodash, and ramda have a `curry` function that works this way.
+Трансформированние фукнции которая получает несколько аргументов в одну которая при получении меньше необходимого количества аргуменов возвращает фукнцию которая получает остальные. Когда функци получит необходимое количество аргументов то будет выполнена.
 
-```js
+Lodash и ramda имеют функцию `curry` которая работает описаным путем.
+
+```javascript
 const add = (x, y) => x + y
 
 const curriedAdd = _.curry(add)
@@ -159,34 +162,35 @@ curriedAdd(1) // (y) => 1 + y
 curriedAdd(1)(2) // 3
 ```
 
-__Further reading__
-* [Favoring Curry](http://fr.umio.us/favoring-curry/)
-* [Hey Underscore, You're Doing It Wrong!](https://www.youtube.com/watch?v=m3svKOdZijA)
+__Почитать__
+* [В пользу каррирования](http://fr.umio.us/favoring-curry/)
+* [Ей Underscore, ты делаеш это неправильно!](https://www.youtube.com/watch?v=m3svKOdZijA)
 
-## Function Composition
+## Композиция функций {#function-composition}
 
-The act of putting two functions together to form a third function where the output of one function is the input of the other.
+Действие соединения двух функций вместе для формирования третей, где результат первой функции является входным параметром для другой функции. 
 
-```js
-const compose = (f, g) => (a) => f(g(a)) // Definition
-const floorAndToString = compose((val) => val.toString(), Math.floor) // Usage
+```javascript
+const compose = (f, g) => (a) => f(g(a)) // определение
+const floorAndToString = compose((val) => val.toString(), Math.floor) // использование
 floorAndToString(121.212121) // '121'
 ```
 
-## Purity
+## Чистота {#purity}
 
-A function is pure if the return value is only determined by its
-input values, and does not produce side effects.
+Функция является чистой если возвращаемое значение определяется только входным значением, и не производит побочных ефектов.
 
-```js
+
+
+```javascript
 const greet = (name) => `Hi, ${name}`
 
 greet('Brianne') // 'Hi, Brianne'
 ```
 
-As opposed to each of the following:
+В отличии от следующих:
 
-```js
+```javascript
 window.name = 'Brianne'
 
 const greet = () => `Hi, ${window.name}`
@@ -194,9 +198,9 @@ const greet = () => `Hi, ${window.name}`
 greet() // "Hi, Brianne"
 ```
 
-The above example's output is based on data stored outside of the function...
+Вывод, примера выше, основывается на данных сохраненных вне фукнции...
 
-```js
+```javascript
 let greeting
 
 const greet = (name) => {
@@ -207,9 +211,9 @@ greet('Brianne')
 greeting // "Hi, Brianne"
 ```
 
-... and this one modifies state outside of the function.
+... а здесь модифицируется состояние вне функции.
 
-## Side effects
+## Побочные ефекты {#side-effects}
 
 A function or expression is said to have a side effect if apart from returning a value, it interacts with (reads from or writes to) external mutable state.
 
@@ -764,7 +768,7 @@ getNestedPrice({item: {price: 9.99}}) // Some(9.99)
 
 `Option` is also known as `Maybe`. `Some` is sometimes called `Just`. `None` is sometimes called `Nothing`.
 
-## Functional Programming Libraries in JavaScript
+## Библиотеки для функционального программирования на JavaScript
 
 * [Ramda](https://github.com/ramda/ramda)
 * [Folktale](http://folktalejs.org)
